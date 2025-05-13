@@ -1,6 +1,26 @@
-
+﻿
 ; Purebasic Syntax Highlight To Html
-; Author: Webarion
+; Author ..: Webarion
+; Version .: 1.2 (13.05.2025)
+; License .: Free
+
+; Changes ...: * Fixed error in the comment regular
+;            : * Added an example of transformation from the file template
+;            : * Added the topics of the colors from IDE and additional topics
+
+; Изменения .: * Исправлена ошибка в регулярке комментария
+;            : * Добавлен пример преобразования из файла шаблона
+;            : * Добавлены темы расцветок из IDE и дополнительные темы
+
+EnableExplicit
+
+;- Structure
+
+Structure Symbol
+  c.c[0]
+EndStructure
+
+;- Variables
 
 Global NewMap SHL_Template.s()
 
@@ -41,20 +61,20 @@ EndProcedure
 
 ; PureBasic IDE standard color regular expressions
 ; Регулярки стандартной расцветки IDE PureBasic
-_Add_Pattern_REGEX_SHL( "StringColor", "(~"+#DQUOTE$+"(?:\\.|[^\\])*?(?:"+#DQUOTE$+"|$)|"+#DQUOTE$+"[^"+#DQUOTE$+"]*?(?:"+#DQUOTE$+"|$))" )
-_Add_Pattern_REGEX_SHL( "CustomKeywordColor", "\b(Procedure|EndProcedure)\b" )
-_Add_Pattern_REGEX_SHL( "BasicKeywordColor", "\b(And|Array|As|Break|CallDebugger|Case|CompilerCase|CompilerDefault|CompilerElse|CompilerElseIf|CompilerEndIf|CompilerEndSelect|CompilerError|CompilerIf|CompilerSelect|CompilerWarning|Continue|Data|DataSection|EndDataSection|Debug|DebugLevel|Declare|DeclareC|DeclareCDLL|DeclareDLL|DeclareModule|EndDeclareModule|Default|Define|Dim|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|Enumeration|EnumerationBinary|EndEnumeration|FakeReturn|For|ForEach|ForEver|Global|Gosub|Goto|If|EndIf|Import|EndImport|ImportC|IncludeBinary|IncludeFile|IncludePath|Interface|EndInterface|List|Macro|EndMacro|MacroExpandedCount|Map|Module|EndModule|NewList|NewMap|Next|Not|Or|Procedure|EndProcedure|ProcedureC|ProcedureCDLL|ProcedureDLL|ProcedureReturn|Protected|Prototype|PrototypeC|Read|ReDim|Repeat|Restore|Return|Runtime|Select|EndSelect|Shared|Static|Step|Structure|EndStructure|StructureUnion|EndStructureUnion|Swap|Threaded|To|UndefineMacro|Until|UseModule|UnuseModule|Wend|While|With|EndWith|XIncludeFile|XOr|Align|Extends)\b" )
-_Add_Pattern_REGEX_SHL( "CommentColor", "(;.*\r\n?)" )
-_Add_Pattern_REGEX_SHL( "ConstantColor", "(\#[a-z_]\w*\$?)" )
-_Add_Pattern_REGEX_SHL( "PureKeywordColor", "(\w+\$?(?=(?:\s*\.\s*\w+\s*|\s*)\())" )
-_Add_Pattern_REGEX_SHL( "ASMKeywordColor", "^\s*(!.*?)(?=;|$)" )
-_Add_Pattern_REGEX_SHL( "PointerColor", "((?:\@\*?|\*|\?)[a-z_]\w+(?:\$|\(\))?)" )
-_Add_Pattern_REGEX_SHL( "NumberColor", "((?:\b\d+\.?\d*(?:e[+\-]?\d+)?|\$[\dabcdef]+|\%[01]+))" )
-_Add_Pattern_REGEX_SHL( "StructureColor", "([a-z_]\w*(?=\s*\.[^abcdfilqsuw]))|(?![\r\n])(?<=\.)\s*([^abcdfilqsuw][a-z_]\w*)|([a-z_]\w*(?=\s*\\)(?!\r\n))|(?<=\\)\s*([a-z_]\w*)" )
-_Add_Pattern_REGEX_SHL( "ModuleColor", "(\w+(?=\s*::))" )
-_Add_Pattern_REGEX_SHL( "LabelColor", "(^\s*\w+\$?\s*:(?!:))" )
-_Add_Pattern_REGEX_SHL( "OperatorColor", "((?:[+*/\-|!%=~]|::|&gt;|&lt;|&amp;)+)" )
-_Add_Pattern_REGEX_SHL( "SeparatorColor", "([()\[\]\\,.:])" )
+_Add_Pattern_REGEX_SHL( "stringcolor", "(~"+#DQUOTE$+"(?:\\.|[^\\])*?(?:"+#DQUOTE$+"|$)|"+#DQUOTE$+"[^"+#DQUOTE$+"]*?(?:"+#DQUOTE$+"|$))" )
+_Add_Pattern_REGEX_SHL( "customkeywordcolor", "\b(Procedure|EndProcedure)\b" )
+_Add_Pattern_REGEX_SHL( "basickeywordcolor", "\b(And|Array|As|Break|CallDebugger|Case|CompilerCase|CompilerDefault|CompilerElse|CompilerElseIf|CompilerEndIf|CompilerEndSelect|CompilerError|CompilerIf|CompilerSelect|CompilerWarning|Continue|Data|DataSection|EndDataSection|Debug|DebugLevel|Declare|DeclareC|DeclareCDLL|DeclareDLL|DeclareModule|EndDeclareModule|Default|Define|Dim|DisableASM|DisableDebugger|DisableExplicit|Else|ElseIf|EnableASM|EnableDebugger|EnableExplicit|End|Enumeration|EnumerationBinary|EndEnumeration|FakeReturn|For|ForEach|ForEver|Global|Gosub|Goto|If|EndIf|Import|EndImport|ImportC|IncludeBinary|IncludeFile|IncludePath|Interface|EndInterface|List|Macro|EndMacro|MacroExpandedCount|Map|Module|EndModule|NewList|NewMap|Next|Not|Or|Procedure|EndProcedure|ProcedureC|ProcedureCDLL|ProcedureDLL|ProcedureReturn|Protected|Prototype|PrototypeC|Read|ReDim|Repeat|Restore|Return|Runtime|Select|EndSelect|Shared|Static|Step|Structure|EndStructure|StructureUnion|EndStructureUnion|Swap|Threaded|To|UndefineMacro|Until|UseModule|UnuseModule|Wend|While|With|EndWith|XIncludeFile|XOr|Align|Extends)\b" )
+_Add_Pattern_REGEX_SHL( "commentcolor", "(;.*(?:\r\n|\r|\n))" )
+_Add_Pattern_REGEX_SHL( "constantcolor", "(\#[a-z_]\w*\$?)" )
+_Add_Pattern_REGEX_SHL( "purekeywordcolor", "(\w+\$?(?=(?:\s*\.\s*\w+\s*|\s*)\())" )
+_Add_Pattern_REGEX_SHL( "asmkeywordcolor", "^\s*(!.*?)(?=;|$)" )
+_Add_Pattern_REGEX_SHL( "pointercolor", "((?:\@\*?|\*|\?)[a-z_]\w+(?:\$|\(\))?)" )
+_Add_Pattern_REGEX_SHL( "numbercolor", "((?:\b\d+\.?\d*(?:e[+\-]?\d+)?|\$[\dabcdef]+|\%[01]+))" )
+_Add_Pattern_REGEX_SHL( "structurecolor", "([a-z_]\w*(?=\s*\.[^abcdfilqsuw]))|(?![\r\n])(?<=\.)\s*([^abcdfilqsuw][a-z_]\w*)|([a-z_]\w*(?=\s*\\)(?!\r\n))|(?<=\\)\s*([a-z_]\w*)" )
+_Add_Pattern_REGEX_SHL( "modulecolor", "(\w+(?=\s*::))" )
+_Add_Pattern_REGEX_SHL( "labelcolor", "(^\s*\w+\$?\s*:(?!:))" )
+_Add_Pattern_REGEX_SHL( "operatorcolor", "((?:[+*/\-|!%=~]|::|&gt;|&lt;|&amp;)+)" )
+_Add_Pattern_REGEX_SHL( "separatorcolor", "([()\[\]\\,.:])" )
 
 _Init_REGEX_SHL()
 
@@ -97,61 +117,133 @@ Procedure.s Load_INI_File_SHL( PathFile$, Section$ )
   OpenPreferences( PathFile$ )
   
   PreferenceGroup(Section$)
-  SHL_Template("EditorFontName")  = ReadPreferenceString("EditorFontName",  "Consolas" )
-  SHL_Template("EditorFontSize")  = ReadPreferenceString("EditorFontSize",  "10" )
-  SHL_Template("EditorFontStyle") = ReadPreferenceString("EditorFontStyle", "" )
-  SHL_Template("NormalTextColor") = ReadPreferenceString("NormalTextColor", "#FFFFFF" )
-  SHL_Template("BackgroundColor") = ReadPreferenceString("BackgroundColor", "#002240" )
+
+  SHL_Template("normaltextcolor") = ReadPreferenceString("NormalTextColor", "#FFFFFF" )
+  SHL_Template("backgroundcolor") = ReadPreferenceString("BackgroundColor", "#002240" )
   
-  SHL_Template("LabelColor")         = ReadPreferenceString( "LabelColor",         "<font color='#D33682'>%1</font>" )
-  SHL_Template("NumberColor")        = ReadPreferenceString( "NumberColor",        "<font color='#FF628C'>%1</font>" )
-  SHL_Template("StringColor")        = ReadPreferenceString( "StringColor",        "<font color='#3AD900'>%1</font>" )
-  SHL_Template("ModuleColor")        = ReadPreferenceString( "ModuleColor",        "<font color='#CB4B16'>%1</font>" )
-  SHL_Template("PointerColor")       = ReadPreferenceString( "PointerColor",       "<font color='#5DAEF2'>%1</font>" )
-  SHL_Template("CommentColor")       = ReadPreferenceString( "CommentColor",       "<font color='#0088FF'>%1</font>" )
-  SHL_Template("ConstantColor")      = ReadPreferenceString( "ConstantColor",      "<font color='#FF628C'>%1</font>" )
-  SHL_Template("OperatorColor")      = ReadPreferenceString( "OperatorColor",      "<font color='#FF9D00'>%1</font>" )
-  SHL_Template("SeparatorColor")     = ReadPreferenceString( "SeparatorColor",     "<font color='#FFD715'>%1</font>" )
-  SHL_Template("StructureColor")     = ReadPreferenceString( "StructureColor",     "<font color='#60B66D'>%1</font>" )
-  SHL_Template("ASMKeywordColor")    = ReadPreferenceString( "ASMKeywordColor",    "<font color='#6C71C4'>%1</font>" ) 
-  SHL_Template("PureKeywordColor")   = ReadPreferenceString( "PureKeywordColor",   "<font color='#FFB454'>%1</font>" )
-  SHL_Template("BasicKeywordColor")  = ReadPreferenceString( "BasicKeywordColor",  "<font color='#FFB054'>%1</font>" )
-  SHL_Template("CustomKeywordColor") = ReadPreferenceString( "CustomKeywordColor", "<font color='#FB86CD'>%1</font>" )
+  SHL_Template("labelcolor")         = ReadPreferenceString( "LabelColor",         "<font color='#D33682'>%1</font>" )
+  SHL_Template("numbercolor")        = ReadPreferenceString( "NumberColor",        "<font color='#FF628C'>%1</font>" )
+  SHL_Template("stringcolor")        = ReadPreferenceString( "StringColor",        "<font color='#3AD900'>%1</font>" )
+  SHL_Template("modulecolor")        = ReadPreferenceString( "ModuleColor",        "<font color='#CB4B16'>%1</font>" )
+  SHL_Template("pointercolor")       = ReadPreferenceString( "PointerColor",       "<font color='#5DAEF2'>%1</font>" )
+  SHL_Template("commentcolor")       = ReadPreferenceString( "CommentColor",       "<font color='#0088FF'>%1</font>" )
+  SHL_Template("constantcolor")      = ReadPreferenceString( "ConstantColor",      "<font color='#FF628C'>%1</font>" )
+  SHL_Template("operatorcolor")      = ReadPreferenceString( "OperatorColor",      "<font color='#FF9D00'>%1</font>" )
+  SHL_Template("separatorcolor")     = ReadPreferenceString( "SeparatorColor",     "<font color='#FFD715'>%1</font>" )
+  SHL_Template("structurecolor")     = ReadPreferenceString( "StructureColor",     "<font color='#60B66D'>%1</font>" )
+  SHL_Template("asmkeywordcolor")    = ReadPreferenceString( "ASMKeywordColor",    "<font color='#6C71C4'>%1</font>" ) 
+  SHL_Template("purekeywordcolor")   = ReadPreferenceString( "PureKeywordColor",   "<font color='#FFB454'>%1</font>" )
+  SHL_Template("basickeywordcolor")  = ReadPreferenceString( "BasicKeywordColor",  "<font color='#FFB054'>%1</font>" )
+  SHL_Template("customkeywordcolor") = ReadPreferenceString( "CustomKeywordColor", "<font color='#FB86CD'>%1</font>" )
   
   ClosePreferences()
-
+  
 EndProcedure 
 
 
-;- EXAMPLE
-;- ПРИМЕР
+Procedure.s Load_File_To_Var(FilePath$)
+  Protected FileText$, File = ReadFile(#PB_Any, FilePath$)  
+  If File  
+    Protected Format = ReadStringFormat(File)
+    FileText$ = ReadString( File, Format | #PB_File_IgnoreEOL )
+    CloseFile(File)
+  Else
+    Debug "Error - Couldn't open file: " + FilePath$
+  EndIf
+  ProcedureReturn FileText$
+EndProcedure
 
-CompilerIf #PB_Compiler_IsMainFile 
-  If OpenWindow(0, 0, 0, 700, 500, "", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+
+; Converts a variable with a template into a ready HTML code. Преобразует переменную с шаблоном в готовый html код
+Procedure.s Convert_Code(TmplHTML$, PBCode$)
+  Protected Position = 0
+  Protected *Start.Symbol = @TmplHTML$
+  Protected *Next.Symbol  = *Start
+  Protected NewList Key$()
+  Repeat
+    Position + 1
+    Position = FindString( TmplHTML$, "{SHL_", Position, #PB_String_NoCase )
+    If Position
+      *Next = *Start + ((Position+4)*2)
+      Protected *StartKey.Symbol = *Next
+      While (*Next\c>='a' And *Next\c<='z') Or (*Next\c>='A' And *Next\c<='Z')
+        *Next + 2
+      Wend
+      If *Next\c = '}'
+        Protected Key$ = LCase( PeekS( *StartKey, ( *Next - *StartKey ) / 2 ) )
+        If Key$ <> "code"
+          AddElement( Key$() ) : Key$() = Key$
+        EndIf
+      EndIf
+    EndIf
+  Until Not Position
+  
+  ForEach Key$()
+    TmplHTML$ = ReplaceString( TmplHTML$, "{SHL_" + Key$() + "}", SHL_Template( Key$() ), #PB_String_NoCase )
+  Next
+  TmplHTML$ = ReplaceString( TmplHTML$, "{SHL_CODE}", PB_Syntax_Highlighting( PBCode$ ), #PB_String_NoCase )
+  
+  ProcedureReturn TmplHTML$
+EndProcedure
+
+
+; Converts the template file into ready-made HTML code. Преобразует файл шаблона в готовый html код
+Procedure.s Convert_Template_File(FilePath$, PBCode$)
+  Protected TmplHTML$ = Load_File_To_Var(FilePath$)
+  ProcedureReturn Convert_Code(TmplHTML$, PBCode$)
+EndProcedure
+
+
+
+;- EXAMPLE. ПРИМЕР
+
+CompilerIf #PB_Compiler_IsMainFile
+  If OpenWindow( 0, 0, 0, 800, 500, "", #PB_Window_SystemMenu | #PB_Window_ScreenCentered )
     
-    Define PBCode$ = ""
+    WebGadget( 0, 10, 10, 780, 480, "" )
     
     Load_INI_File_SHL( "", "" ) ; Load default style. Грузим стиль по умолчанию
     
-    If ReadFile(0, #PB_Compiler_File, #PB_File_SharedRead)
-      PBCode$ = ReadString(0, #PB_File_IgnoreEOL)
-      CloseFile(0)
-    EndIf
+    ; You can upload the theme from the file. Можно загружать тему из файла
+;     Load_INI_File_SHL( "Themes" + #PS$ + "Theme_Cobalt.ini", "" ) 
     
-    Define HTML$ = "<head><meta charset='utf-8'></head>"+
-                   "<body>"+
-                   "<pre style='color:"+SHL_Template("NormalTextColor")+
-                   ";background:"+SHL_Template("BackgroundColor")+";display:table;padding:10px;'>" +
-                   "<code>"+PB_Syntax_Highlighting( PBCode$ )+"</code>" + 
-                   "</pre>"+
-                   "</body>"
+    Define HTML$ = ""
     
-    WebGadget(0, 10, 10, 680, 480, "")
+    ; Try 0 or 1 to see different methods of transformation
+    ; Попробуйте 0 или 1, чтобы увидеть разные способы преобразования
+    #EXAMPLE_TRANSFORM = 1
+    
+    If Not #EXAMPLE_TRANSFORM
+      ; Direct transformation. Непосредственное преобразование
+      Define TmplHTML$ = "<head><meta charset='utf-8'></head>" +
+                         "<body>" +
+                         "  <pre style='color:{SHL_NormalTextColor}; background:{SHL_BackgroundColor};font-size:14;display:table;padding:10px;'>" +
+                         "    <code>" +
+                         "      {SHL_CODE}" +
+                         "    </code>" +
+                         "  </pre>" +
+                         "</body>"
+      HTML$ = Convert_Code( TmplHTML$, Load_File_To_Var( #PB_Compiler_File )  )
+    Else
+      ; Transformation from the template file. Преобразование из файла шаблона
+      HTML$ = Convert_Template_File( "Template_HTML.html", Load_File_To_Var( #PB_Compiler_File ) )
+    EndIf  
+    
     
     SetGadgetItemText( 0, #PB_Web_HtmlCode, HTML$ )
     
     Repeat
     Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
-
+  
 CompilerEndIf
+
+
+
+
+; IDE Options = PureBasic 6.20 (Windows - x64)
+; CursorPosition = 235
+; FirstLine = 198
+; Folding = ---
+; EnableXP
+; DPIAware
