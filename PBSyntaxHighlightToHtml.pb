@@ -211,7 +211,7 @@ CompilerIf #PB_Compiler_IsMainFile
     
     ; Try 0 or 1 to see different methods of transformation
     ; Попробуйте 0 или 1, чтобы увидеть разные способы преобразования
-    #EXAMPLE_TRANSFORM = 1
+    #EXAMPLE_TRANSFORM = 0
     
     If Not #EXAMPLE_TRANSFORM
       ; Direct transformation. Непосредственное преобразование
