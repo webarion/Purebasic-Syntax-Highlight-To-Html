@@ -67,7 +67,7 @@ _Add_Pattern_REGEX_SHL( "basickeywordcolor", "\b(And|Array|As|Break|CallDebugger
 _Add_Pattern_REGEX_SHL( "commentcolor", "(;.*(?:\r\n|\r|\n))" )
 _Add_Pattern_REGEX_SHL( "constantcolor", "(\#[a-z_]\w*\$?)" )
 _Add_Pattern_REGEX_SHL( "purekeywordcolor", "(\w+\$?(?=(?:\s*\.\s*\w+\s*|\s*)\())" )
-_Add_Pattern_REGEX_SHL( "asmkeywordcolor", "^\s*(!.*?)(?=;|$)" )
+_Add_Pattern_REGEX_SHL( "asmkeywordcolor", "^\s*(!.*?)(?:=|\r\n|\r|\n)" )
 _Add_Pattern_REGEX_SHL( "pointercolor", "((?:\@\*?|\*|\?)[a-z_]\w+(?:\$|\(\))?)" )
 _Add_Pattern_REGEX_SHL( "numbercolor", "((?:\b\d+\.?\d*(?:e[+\-]?\d+)?|\$[\dabcdef]+|\%[01]+))" )
 _Add_Pattern_REGEX_SHL( "structurecolor", "([a-z_]\w*(?=\s*\.[^abcdfilqsuw]))|(?![\r\n])(?<=\.)\s*([^abcdfilqsuw][a-z_]\w*)|([a-z_]\w*(?=\s*\\)(?!\r\n))|(?<=\\)\s*([a-z_]\w*)" )
